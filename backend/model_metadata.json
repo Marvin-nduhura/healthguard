@@ -1,0 +1,138 @@
+{
+  "model_type": "RandomForestClassifier",
+  "training_date": "2026-03-05 18:05:33",
+  "training_samples": 110540,
+  "test_samples": 27636,
+  "accuracy": 0.9503907946157186,
+  "roc_auc": 0.7840813043398993,
+  "features": [
+    "latitude",
+    "longitude",
+    "population",
+    "population_density",
+    "border_proximity",
+    "international_airport",
+    "urban_level",
+    "healthcare_facilities_per_100k",
+    "temperature",
+    "humidity",
+    "rainfall",
+    "mobility_index",
+    "testing_rate",
+    "new_cases_today",
+    "cumulative_cases",
+    "active_cases",
+    "cumulative_deaths",
+    "new_deaths_today",
+    "tests_conducted",
+    "cases_7day_avg",
+    "cases_14day_avg",
+    "growth_rate_pct",
+    "positivity_rate_pct",
+    "cases_per_100k"
+  ],
+  "num_features": 24,
+  "districts": 136,
+  "date_range": "2020-03-21 to 2022-12-31",
+  "total_cases": 169750,
+  "total_deaths": 3254,
+  "data_source": "Real COVID-19 data from OWID + Complete feature set",
+  "feature_importance": [
+    {
+      "feature": "new_cases_today",
+      "importance": 0.3563227291472258
+    },
+    {
+      "feature": "positivity_rate_pct",
+      "importance": 0.2244274407047645
+    },
+    {
+      "feature": "new_deaths_today",
+      "importance": 0.05564540580900159
+    },
+    {
+      "feature": "cases_7day_avg",
+      "importance": 0.04649046626809292
+    },
+    {
+      "feature": "cases_14day_avg",
+      "importance": 0.029712574277126657
+    },
+    {
+      "feature": "active_cases",
+      "importance": 0.028180822396847268
+    },
+    {
+      "feature": "testing_rate",
+      "importance": 0.02410095377536604
+    },
+    {
+      "feature": "temperature",
+      "importance": 0.023304322610081717
+    },
+    {
+      "feature": "rainfall",
+      "importance": 0.022610113697457756
+    },
+    {
+      "feature": "mobility_index",
+      "importance": 0.022135338695428747
+    },
+    {
+      "feature": "tests_conducted",
+      "importance": 0.021339947708875005
+    },
+    {
+      "feature": "humidity",
+      "importance": 0.02033234356068803
+    },
+    {
+      "feature": "cumulative_cases",
+      "importance": 0.018921742515106917
+    },
+    {
+      "feature": "cases_per_100k",
+      "importance": 0.01884868508160312
+    },
+    {
+      "feature": "growth_rate_pct",
+      "importance": 0.014235123478781237
+    },
+    {
+      "feature": "healthcare_facilities_per_100k",
+      "importance": 0.012513243169448109
+    },
+    {
+      "feature": "population_density",
+      "importance": 0.01239272707848996
+    },
+    {
+      "feature": "longitude",
+      "importance": 0.011778201761109393
+    },
+    {
+      "feature": "latitude",
+      "importance": 0.011673293343356407
+    },
+    {
+      "feature": "population",
+      "importance": 0.011458009061633445
+    },
+    {
+      "feature": "cumulative_deaths",
+      "importance": 0.008740052831440505
+    },
+    {
+      "feature": "border_proximity",
+      "importance": 0.0029597307521229054
+    },
+    {
+      "feature": "urban_level",
+      "importance": 0.0015959668934605823
+    },
+    {
+      "feature": "international_airport",
+      "importance": 0.00028076538249139184
+    }
+  ]
+}

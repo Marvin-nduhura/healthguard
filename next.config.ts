@@ -22,7 +22,7 @@ const nextConfig: NextConfig = {
   // Server-only packages — must not be bundled for the browser
   serverExternalPackages: ['@prisma/adapter-pg', 'pg', '@prisma/client'],
 
-  // Silence the workspace-root warning by pinning to this app directory
+  // Pin workspace root to this directory (silences multi-root warning)
   turbopack: {
     root: path.resolve(__dirname),
   },
@@ -30,6 +30,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       { protocol: 'https', hostname: 'upload.wikimedia.org' },
+      { protocol: 'https', hostname: '*.onrender.com' },
     ],
   },
 };

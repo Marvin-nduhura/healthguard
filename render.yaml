@@ -1,0 +1,47 @@
+# render.yaml — HealthGuard PWA Render Blueprint
+# Defines both services: Next.js frontend + Flask ML backend
+# Developed by NDUHURA MARVIN for ANGEL TECHNOLOGIES LTD
+# Deploy: https://dashboard.render.com/blueprints → New Blueprint → connect this repo
+
+services:
+
+  # ── 1. Flask ML Backend ─────────────────────────────────────────────────────
+  - type: web
+    name: healthguard-api
+    runtime: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn flask_api:app --bind 0.0.0.0:$PORT --workers 2 --timeout 120
+    plan: starter          # free tier — upgrade to starter ($7/mo) for no sleep
+    healthCheckPath: /health
+    envVars:
+      - key: PYTHON_VERSION
+        value: "3.11.0"
+      - key: ALLOWED_ORIGINS
+        sync: false        # fill in manually after Next.js deploys (its .onrender.com URL)
+    autoDeploy: true
+
+  # ── 2. Next.js Frontend ──────────────────────────────────────────────────────
+  - type: web
+    name: healthguard-pwa
+    runtime: node
+    rootDir: .             # package.json is at healthguard-pwa/ root
+    buildCommand: npm ci && npx prisma generate --schema=prisma/schema.prisma && npm run build
+    startCommand: npm start
+    plan: starter
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: "20.11.0"
+      - key: DATABASE_URL
+        sync: false        # paste your Prisma Postgres URL here
+      - key: FLASK_API_URL
+        sync: false        # paste the healthguard-api .onrender.com URL here
+      - key: NEXT_TELEMETRY_DISABLED
+        value: "1"
+      - key: RENDER_EXTERNAL_URL
+        fromService:
+          name: healthguard-pwa
+          type: web
+          property: host
+    autoDeploy: true

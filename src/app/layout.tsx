@@ -3,6 +3,10 @@ import './globals.css';
 import { ThemeProvider } from '@/lib/theme';
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL ||
+    (process.env.RENDER_EXTERNAL_URL ? `https://${process.env.RENDER_EXTERNAL_URL}` : 'http://localhost:3000')
+  ),
   title: 'HealthGuard PWA | AI-Driven Disease Surveillance Uganda',
   description:
     'HealthGuard PWA: AI-Driven Surveillance for Contagious Diseases & Image-Based Malnutrition Detection in Uganda. Developed by NDUHURA MARVIN for ANGEL TECHNOLOGIES LTD.',
