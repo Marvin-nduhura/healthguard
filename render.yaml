@@ -39,6 +39,8 @@ services:
         sync: false        # paste the healthguard-api .onrender.com URL here
       - key: NEXT_TELEMETRY_DISABLED
         value: "1"
+      - key: NEXT_PUBLIC_FLASK_API_URL
+        value: "https://healthguard-api-vtrp.onrender.com"
       - key: RENDER_EXTERNAL_URL
         fromService:
           name: healthguard-pwa

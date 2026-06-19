@@ -53,6 +53,12 @@ export default function HomePage() {
     if ('serviceWorker' in navigator) navigator.serviceWorker.register('/sw.js').catch(() => {});
   }, []);
 
+  // Wake up the Flask backend as soon as the page loads (Render free tier sleeps)
+  useEffect(() => {
+    const flaskUrl = process.env.NEXT_PUBLIC_FLASK_API_URL || 'https://healthguard-api-vtrp.onrender.com';
+    fetch(`${flaskUrl}/ping`).catch(() => {});
+  }, []);
+
   const fetchData = useCallback(async (model: ModelChoice = modelChoice) => {
     setLoading(true);
     setError(null);

@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/lib/prisma';
 
-const FLASK_URL = process.env.FLASK_API_URL || 'http://localhost:5000';
+const FLASK_URL = process.env.FLASK_API_URL || 'https://healthguard-api-vtrp.onrender.com';
 
 export async function POST(req: NextRequest) {
   try {

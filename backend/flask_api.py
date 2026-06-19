@@ -31,6 +31,13 @@ ALLOWED_ORIGINS += ["http://localhost:3000", "http://localhost:3001"]
 
 CORS(app, origins=ALLOWED_ORIGINS, supports_credentials=True)
 
+
+# ── Warm-up / keep-alive endpoint ────────────────────────────────────────────
+@app.route('/ping', methods=['GET', 'OPTIONS'])
+def ping():
+    """Lightweight endpoint the Next.js app calls on load to wake the service."""
+    return jsonify({'pong': True, 'ts': datetime.now().isoformat()})
+
 # ── Load ML models ──────────────────────────────────────────────────────────
 def build_pytorch_model(input_size):
     try:
