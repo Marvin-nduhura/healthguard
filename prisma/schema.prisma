@@ -1,0 +1,145 @@
+// HealthGuard PWA — Prisma Schema
+// Database: Prisma Postgres (pooled.db.prisma.io)
+// Developed by NDUHURA MARVIN for ANGEL TECHNOLOGIES LTD
+
+generator client {
+  provider        = "prisma-client-js"
+  output          = "../generated/prisma"
+  previewFeatures = ["driverAdapters"]
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ── Starter models — replace with your own ──────────────────────────
+
+// Stores user/app activity log (starter)
+model AppLog {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  event     String
+  meta      String?
+
+  @@map("app_logs")
+}
+
+// District — core geographic entity
+model District {
+  id        String   @id @default(cuid())
+  name      String   @unique
+  region    String
+  latitude  Float
+  longitude Float
+  population Int
+  createdAt DateTime @default(now())
+
+  predictions  PredictionRecord[]
+  alerts       Alert[]
+  screenings   NutritionScreening[]
+
+  @@index([region])
+  @@map("districts")
+}
+
+// Stores prediction snapshots for history/trending
+model PredictionRecord {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  districtName String
+  district     District? @relation(fields: [districtName], references: [name])
+  region       String
+  probability  Float
+  rfProb       Float
+  pytorchProb  Float?
+  riskLevel    String
+  activeCases  Int      @default(0)
+  newCases     Int      @default(0)
+  growthRate   Float    @default(0)
+  temperature  Float    @default(0)
+  humidity     Float    @default(0)
+  rainfall     Float    @default(0)
+  mobilityIndex Float   @default(0)
+  modelUsed    String   @default("ensemble")
+
+  @@index([districtName])
+  @@index([createdAt])
+  @@map("prediction_records")
+}
+
+// Snapshot of full prediction run
+model PredictionSnapshot {
+  id              String   @id @default(cuid())
+  createdAt       DateTime @default(now())
+  modelChoice     String   @default("ensemble")
+  data            String   // JSON blob of all predictions
+  stats           String   // JSON blob of dashboard stats
+  nationalActive  Int      @default(0)
+  avgProbability  Float    @default(0)
+  highRiskCount   Int      @default(0)
+
+  @@map("prediction_snapshots")
+}
+
+// Alerts — auto-generated for high risk districts
+model Alert {
+  id             String    @id @default(cuid())
+  createdAt      DateTime  @default(now())
+  districtName   String
+  district       District? @relation(fields: [districtName], references: [name])
+  riskLevel      String
+  probability    Float
+  activeCases    Int       @default(0)
+  growthRate     Float     @default(0)
+  acknowledged   Boolean   @default(false)
+  acknowledgedAt DateTime?
+  message        String?
+
+  @@index([districtName])
+  @@index([createdAt])
+  @@map("alerts")
+}
+
+// Nutrition / malnutrition screening records
+model NutritionScreening {
+  id           String   @id @default(cuid())
+  createdAt    DateTime @default(now())
+  patientAge   Int?
+  patientSex   String?
+  districtName String?
+  district     District? @relation(fields: [districtName], references: [name])
+  muac         Float?
+  weight       Float?
+  height       Float?
+  result       String?  // severe | moderate | mild | normal
+  confidence   Float?
+  notes        String?
+  imageData    String?
+
+  @@index([districtName])
+  @@index([createdAt])
+  @@map("nutrition_screenings")
+}
+
+// System config / key-value store
+model SystemConfig {
+  id        String   @id @default(cuid())
+  key       String   @unique
+  value     String
+  updatedAt DateTime @updatedAt
+
+  @@map("system_config")
+}
+
+// API status log
+model ApiStatusLog {
+  id        String   @id @default(cuid())
+  createdAt DateTime @default(now())
+  apiName   String
+  status    String
+  message   String?
+  coverage  Int      @default(0)
+  total     Int      @default(0)
+
+  @@map("api_status_logs")
+}
